@@ -37,7 +37,7 @@ pipeline {
         stage("API Test") {
             steps {
                 dir('api-test'){
-                    git url: 'https://github.com/marcoscouto/tasks-api-test'
+                    git credentialsId: 'none', url: 'https://github.com/marcoscouto/tasks-api-test'
                     sh 'mvn test'
                 }
             }
