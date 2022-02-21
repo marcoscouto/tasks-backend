@@ -59,17 +59,17 @@ pipeline {
                 }
             }
         }
-        post {
-            always {
-                junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml, api-test/target/surefire-reports/*.xml, functional-test/target/surefire-reports/*.xml'
-            }
-        }
         // stage("Deploy Prod") {
         //     steps {
         //         sh 'docker-compose build'
         //         sh 'docker-compose up -d'
         //     }
         // }
+    }
+    post {
+        always {
+            junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml, api-test/target/surefire-reports/*.xml, functional-test/target/surefire-reports/*.xml'
+        }
     }
 }
 
