@@ -21,18 +21,12 @@ pipeline {
                 }
             }
         }
-        // stage("Quality Gate") {
-        //     steps {
-        //         timeout(time: 1, unit: 'MINUTES') {
-        //             sleep(10)
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
         stage("Quality Gate") {
             steps {
-                waitForQualityGate webhookSecretId: 'webhooksonar'
-                waitForQualityGate abortPipeline: true
+                timeout(time: 1, unit: 'MINUTES') {
+                    sleep(10)
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
         stage("Deploy Backend") {
