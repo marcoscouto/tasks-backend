@@ -34,7 +34,7 @@ pipeline {
                 deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')], contextPath: '/tasks-backend', onFailure: false, war: 'target/tasks-backend.war'
             }
         }
-        stage("API Test") {
+        stage("API Test - Rest Assured") {
             steps {
                 dir('api-test'){
                     git branch: 'main', url: 'https://github.com/marcoscouto/tasks-api-test'
@@ -48,6 +48,14 @@ pipeline {
                     git branch: 'master', url: 'https://github.com/marcoscouto/tasks-frontend'
                     sh 'mvn clean package'
                     deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')], contextPath: '/tasks', onFailure: false, war: 'target/tasks.war'
+                }
+            }
+        }
+        stage("Functional Test - Selenium") {
+            steps {
+                dir('functional-test'){
+                    git branch: 'main', url: 'https://github.com/marcoscouto/tasks-functional-tests'
+                    sh 'mvn test'
                 }
             }
         }
