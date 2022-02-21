@@ -24,7 +24,7 @@ pipeline {
         stage("Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'MINUTES') {
-                    sleep(10)
+                    sleep(5)
                     waitForQualityGate abortPipeline: true
                 }
             }
@@ -45,7 +45,7 @@ pipeline {
         stage("Deploy Frontend") {
             steps {
                 dir('frontend'){
-                    git 'https://github.com/marcoscouto/tasks-api-test'
+                    git 'https://github.com/marcoscouto/tasks-frontend'
                     sh 'mvn package build'
                     deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')], contextPath: '/tasks', onFailure: false, war: 'target/tasks.war'
                 }
